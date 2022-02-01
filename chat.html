@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <p id="need" style="display: none;"></p>
+  <p id="need1" style="display: none;"></p>
+  <div id="search-s">
+  <input type="text" placeholder="Search user" id="search">
+  <input type="button" id="search-user" value="Search">
+</div>
+  <div id="area">
+    <div id="area2"></div>
+    <div id="area3"></div>
+  </div>
+  <div id="reg">
+    <input type="text" id="login" placeholder="Login">
+    <input type="text" id="password" placeholder="Password">
+    <input type="button" id="submit" value="Submit"></div>
+    <div id="chat-all-1">
+      <div id="chat-all">
+      
+      </div>
+    </div>
+    <div id="chat-s">
+      <input type="text" placeholder="Write" id="write">
+      <input type="button" id="write-user" value="Write">
+    </div>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+    import { getDatabase, set, ref ,push, child, onValue, remove} from
+    "https://www.gstatic.com/firebasejs/9.6.2/firebase-database.js";
+    
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+    
+    // Your web app's Firebase configuration
+    
+    // Initialize Firebase
+    const firebaseConfig = {
+    apiKey: "AIzaSyCc4oPSp2ctwkvTDmMb4JLMUcVznWukuoA",
+    authDomain: "artem-chat.firebaseapp.com",
+    projectId: "artem-chat",
+    storageBucket: "artem-chat.appspot.com",
+    messagingSenderId: "832808238386",
+    appId: "1:832808238386:web:988650693765c43bfc6b2b",
+    measurementId: "G-LR8HX4KVMG",
+    databaseURL: "https://artem-chat-default-rtdb.europe-west1.firebasedatabase.app",
+  };
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+      let acc = []
+      const starCountRef = ref(database, 'users/');
+      const starCountRef2 = ref(database, 'chats/');
+      function pass (){
+        
+        onValue(starCountRef, (snapshot) => {
+        let passs;
+      snapshot.forEach(childSnapshot => {
+        const data = childSnapshot.val()
+        if(data.password == document.querySelector("#password").value ){
+      passs = document.querySelector("#password").value
+      document.getElementById("need").textContent = passs;
+      }
+      if(childSnapshot.key==document.querySelector("#login").value){
+        document.getElementById("need1").textContent = childSnapshot.key;
+      }
+      });
+      
+      });
+      }
+      $("#submit").click(()=>{
+        pass()
+        setTimeout(() => {
+          if(document.getElementById("need1").textContent !==  document.querySelector("#login").value ){
+            acc = []
+            set(ref(database, "users/"  + document.querySelector("#login").value), {
+          password:document.querySelector("#password").value,
+        });
+  acc.unshift(document.querySelector("#login").value)
+
+      }else if(document.getElementById("need").textContent == document.getElementById("password").value){
+        acc = []
+        acc.unshift(document.querySelector("#login").value)
+      }
+        }, 100);
+      })
+
+     document.getElementById("search-user").addEventListener("click", () =>{
+       let f = 0;
+      onValue(starCountRef2, (snapshot) => {
+
+      snapshot.forEach(childSnapshot => {
+if((""+acc[0]+""+document.getElementById("search").value) == childSnapshot.key){
+if(f>=1){
+  document.getElementById("chat-all").remove()
+}
+const dataC1 = childSnapshot.val().chat
+let nam1 = document.createElement("div")
+let bal11 = document.getElementById("chat-all-1")
+nam1.id = 'chat-all';
+bal11.appendChild(nam1)
+  const dataC = childSnapshot.val().chat
+for(let i = 0; i < dataC.length;i++){
+let nam = document.createElement("p")
+let bal1 = document.getElementById("chat-all")
+nam.className = "1";
+nam.id = i;
+nam.innerHTML = dataC[i]
+bal1.appendChild(nam)
+}
+f++;
+}
+      });
+      
+      });
+
+    
+     })
+
+document.getElementById("write-user").addEventListener("click", () => {
+let chat = []
+let chat2 = []
+let r = 0
+let b = 0
+if(acc.length >0){  
+  onValue(starCountRef2, (snapshot) => {
+    snapshot.forEach(childSnapshot => {
+        if((""+acc[0]+""+document.getElementById("search").value) == childSnapshot.key && r==0 ){
+          const dataC = childSnapshot.val().chat
+          for(let i = 0; i< dataC.length;i++){
+            chat.push(dataC[i])
+          }
+          r++
+        }
+        if((""+document.getElementById("search").value+""+acc[0]) == childSnapshot.key && b==0 ){
+          const dataC = childSnapshot.val().chat
+          for(let i = 0; i< dataC.length;i++){
+            chat2.push(dataC[i])
+          }
+          b++
+        }
+        else{
+          b=0;
+        }
+      });
+    });
+    chat.unshift(document.getElementById("write").value)
+    chat2.unshift(document.getElementById("write").value)
+    set(ref(database, "chats/" + (""+acc[0]+""+document.getElementById("search").value)), {
+          chat:chat,
+        });
+        set(ref(database, "chats/" + (""+document.getElementById("search").value+""+acc[0])), {
+          chat:chat2,
+        });
+}
+})
+    </script>
+</body>
+
+</html>
