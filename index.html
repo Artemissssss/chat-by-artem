@@ -140,6 +140,8 @@ if(acc.length >0){
             chat.push(dataC[i])
           }
           r++
+        }else{
+          r=0
         }
         if((""+document.getElementById("search").value+""+acc[0]) == childSnapshot.key && b==0 ){
           const dataC = childSnapshot.val().chat
