@@ -126,43 +126,57 @@ f++;
     
      })
 
+     let chat = []
+     let chat2 = []
 document.getElementById("write-user").addEventListener("click", () => {
-let chat = []
-let chat2 = []
-let r = 0
+chat = []
+chat2 = []
+  let r = 0
 let b = 0
+let y = 0;
 if(acc.length >0){  
-  onValue(starCountRef2, (snapshot) => {
-    snapshot.forEach(childSnapshot => {
-        if((""+acc[0]+""+document.getElementById("search").value) == childSnapshot.key && r==0 ){
-          const dataC = childSnapshot.val().chat
-          for(let i = 0; i< dataC.length;i++){
-            chat.push(dataC[i])
-          }
-          r++
-        }else{
-          r=0
-        }
-        if((""+document.getElementById("search").value+""+acc[0]) == childSnapshot.key && b==0 ){
-          const dataC = childSnapshot.val().chat
-          for(let i = 0; i< dataC.length;i++){
-            chat2.push(dataC[i])
-          }
-          b++
-        }
-        else{
-          b=0;
-        }
-      });
-    });
+  // onValue(starCountRef2, (snapshot) => {
+  //   snapshot.forEach(childSnapshot => {
+  //       if((""+acc[0]+""+document.getElementById("search").value) == childSnapshot.key && r==0 ){
+  //         const dataC = childSnapshot.val().chat
+  //         for(let i = 0; i< dataC.length;i++){
+  //           chat.push(dataC[i])
+  //         }
+  //         r++
+  //       }else{
+  //         r=0
+  //       }
+  //       if((""+acc[0]+""+document.getElementById("search").value) == childSnapshot.key && b==0 ){
+  //         const dataC = childSnapshot.val().chat
+  //         for(let i = 0; i< dataC.length;i++){
+  //           chat2.push(dataC[i])
+  //         }
+  //         b++
+  //       }
+  //       else{
+  //         b=0;
+  //       }
+  //     });
+  //   });
+  for(let i = 0; i< document.getElementsByClassName("1").length;i++){
+      chat.push(document.getElementsByClassName("1")[i].innerHTML)
+    }
+    for(let i = 0; i< document.getElementsByClassName("1").length;i++){
+      chat2.push(document.getElementsByClassName("1")[i].innerHTML)
+    }
     chat.unshift(document.getElementById("write").value)
     chat2.unshift(document.getElementById("write").value)
     set(ref(database, "chats/" + (""+acc[0]+""+document.getElementById("search").value)), {
+          chat:[],
+        });
+    set(ref(database, "chats/" + (""+acc[0]+""+document.getElementById("search").value)), {
           chat:chat,
         });
-        set(ref(database, "chats/" + (""+document.getElementById("search").value+""+acc[0])), {
-          chat:chat2,
-        });
+     remove(ref(database, "chats/" + (""+document.getElementById("search").value+""+acc[0])));
+      set(ref(database, "chats/" + (""+document.getElementById("search").value+""+acc[0])), {
+        chat:chat2,
+      });
+      document.getElementById("write").value = ""
 }
 })
     </script>
