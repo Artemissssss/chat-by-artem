@@ -164,8 +164,8 @@ if(acc.length >0){
     for(let i = 0; i< document.getElementsByClassName("1").length;i++){
       chat2.push(document.getElementsByClassName("1")[i].innerHTML)
     }
-    chat.unshift(document.getElementById("write").value)
-    chat2.unshift(document.getElementById("write").value)
+    chat.unshift(acc[0]+":"+document.getElementById("write").value)
+    chat2.unshift(acc[0]+":"+document.getElementById("write").value)
     set(ref(database, "chats/" + (""+acc[0]+""+document.getElementById("search").value)), {
           chat:[],
         });
