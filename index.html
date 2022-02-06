@@ -7,15 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
   <p id="need" style="display: none;"></p>
   <p id="need1" style="display: none;"></p>
-  <div id="search-s">
-  <input type="text" placeholder="Search user" id="search">
-  <input type="button" id="search-user" value="Search">
-</div>
   <div id="area">
     <div id="area2"></div>
     <div id="area3"></div>
@@ -23,14 +20,19 @@
   <div id="reg">
     <input type="text" id="login" placeholder="Login">
     <input type="text" id="password" placeholder="Password">
-    <input type="button" id="submit" value="Submit"></div>
+    <input type="button" id="submit" value="Submit">
+  </div>
+    <div id="search-s">
+    <input type="text" placeholder="Login of user" id="search">
+    <input type="button" id="search-user" value="Search">
+  </div>
     <div id="chat-all-1">
       <div id="chat-all">
       
       </div>
     </div>
     <div id="chat-s">
-      <input type="text" placeholder="Write" id="write">
+      <input type="text" placeholder="Write message" id="write">
       <input type="button" id="write-user" value="Write">
     </div>
   <script type="module">
@@ -112,7 +114,7 @@ bal11.appendChild(nam1)
 for(let i = 0; i < dataC.length;i++){
 let nam = document.createElement("p")
 let bal1 = document.getElementById("chat-all")
-nam.className = "1";
+nam.className = "j";
 nam.id = i;
 nam.innerHTML = dataC[i]
 bal1.appendChild(nam)
@@ -158,14 +160,14 @@ if(acc.length >0){
   //       }
   //     });
   //   });
-  for(let i = 0; i< document.getElementsByClassName("1").length;i++){
-      chat.push(document.getElementsByClassName("1")[i].innerHTML)
+  for(let i = 0; i< document.getElementsByClassName("j").length;i++){
+      chat.push(document.getElementsByClassName("j")[i].innerHTML)
     }
-    for(let i = 0; i< document.getElementsByClassName("1").length;i++){
-      chat2.push(document.getElementsByClassName("1")[i].innerHTML)
+    for(let i = 0; i< document.getElementsByClassName("j").length;i++){
+      chat2.push(document.getElementsByClassName("j")[i].innerHTML)
     }
-    chat.unshift(acc[0]+":"+document.getElementById("write").value)
-    chat2.unshift(acc[0]+":"+document.getElementById("write").value)
+    chat.unshift(acc[0]+": "+document.getElementById("write").value)
+    chat2.unshift(acc[0]+": "+document.getElementById("write").value)
     set(ref(database, "chats/" + (""+acc[0]+""+document.getElementById("search").value)), {
           chat:[],
         });
