@@ -68,6 +68,7 @@
         let passs;
       snapshot.forEach(childSnapshot => {
         const data = childSnapshot.val()
+        console.log(snapshot, childSnapshot, data)
         if(data.password == document.querySelector("#password").value ){
       passs = document.querySelector("#password").value
       document.getElementById("need").textContent = passs;
