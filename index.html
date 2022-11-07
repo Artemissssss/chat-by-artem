@@ -66,6 +66,7 @@
         
         onValue(starCountRef, (snapshot) => {
         let passs;
+          console.log(snapshot)
       snapshot.forEach(childSnapshot => {
         const data = childSnapshot.val()
         console.log(snapshot, childSnapshot, data)
